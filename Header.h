@@ -12,7 +12,10 @@ namespace conteneur{
 	public:
 		T GetValue();
 		void SetValue(T value);
-	private:
+		Item operator+(Item& it);
+		Item(T value);
+		Item() : value(0) {}
+	protected:
 		T value;
 	};
 
@@ -21,6 +24,8 @@ namespace conteneur{
 		string name;
 	public:
 		ItemSet(string name);
+		ItemSet(T value);
+		ItemSet operator+(ItemSet& it);
 		void Define(T arg);
 		string GetName();
 	};
@@ -60,7 +65,7 @@ namespace conteneur{
 
 	template<typename T>
 	void SharedConteneur<T>::Add(const string name, T value) {
-		//cout << this->index << " " << this->size << endl;
+		
 		if (this->index < this->size) {
 			auto item = make_shared<ItemSet<T>>(name);
 			item->SetValue(value);
@@ -79,7 +84,7 @@ namespace conteneur{
 		for (int i = 0; i < this->index; ++i) {
 			weak_conteneur.push_back(weak_ptr<ItemSet<T>>(this->shared_conteneur[i]));
 		}
-		//cout << weak_conteneur[0]->GetValue() << endl;
+		
 		return weak_conteneur;
 	}
 
@@ -95,6 +100,23 @@ namespace conteneur{
 	}
 
 	template<typename T>
+	string ItemSet<T>::GetName() {
+		return this->name;
+	}
+
+	template<typename T>
+	ItemSet<T>::ItemSet(T value) {
+		this->value = value;
+	}
+
+	template<typename T>
+	ItemSet<T> ItemSet<T>::operator+(ItemSet<T>& it) {
+		return ItemSet(it.value + this->value);
+	}
+
+	/*************/
+
+	template<typename T>
 	T Item<T>::GetValue() {
 		return this->value;
 	}
@@ -103,13 +125,18 @@ namespace conteneur{
 	void Item<T>::SetValue(T value) {
 		this->value = value;
 	}
-
+	
 	template<typename T>
-	string ItemSet<T>::GetName() {
-		return this->name;
+	Item<T>::Item(T value) {
+		this->value = value;
 	}
 
+	template<typename T>
+	Item<T> Item<T>::operator+(Item<T>& it) {
+		return Item(it.value + this->value);
+	}
 
+	
 
 
 }

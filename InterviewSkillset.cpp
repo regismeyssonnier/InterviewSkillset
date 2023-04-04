@@ -25,10 +25,14 @@ int main()
     shared_cont->Display();
 
     vector<weak_ptr<ItemSet<long long int>>> weak_conteneur = shared_cont->GetAllWeakReference();
-    for (int i = 0; i < 20; ++i) {
+    for (int i = 0; i < 19; ++i) {
         cout << weak_conteneur[i].use_count() << endl;
         if (shared_ptr<ItemSet<long long int>> spt = weak_conteneur[i].lock()) {
             cout << spt->GetName() << " " << spt->GetValue() << endl;
+            if (shared_ptr<ItemSet<long long int>> spt2 = weak_conteneur[i+1].lock()) {
+                ItemSet<long long int> spt3 = *spt + *spt2;
+                cout << spt->GetName() << " " << spt3.GetValue() << endl;
+            }
 
         }
 
