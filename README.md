@@ -1,6 +1,6 @@
 # InterviewSkillset
 
-Code that is asked in a **_`text question interview`_**.
+Code that is asked in a **_`text interview question`_**.
 
 Many question are given in an interview and some questions required some specifities included in the code.
 
