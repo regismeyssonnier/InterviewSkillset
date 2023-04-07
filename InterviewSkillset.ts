@@ -4,25 +4,35 @@ interface Identity {
     opt?: string;
 }
 
+function descriptoradd(value: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.enumerable = value;
+    };
+}
+
 class obj<T>{
+    static nb_obj:number = 0;
     head: string;
     val: T[];
     id: Identity;
 
     constructor(h:string){
         this.head = h;
-        this.val = []
-       
+        this.val = [];
+        ++obj.nb_obj;
     }
 
+    
     Set_Identity(id: Identity) {
         this.id = id;
     }
 
+   
     Add(val: T) {
         this.val.push(val);
     }
 
+    @descriptoradd(false)
     Get(index: number): T {
         return this.val[index];
     }
@@ -34,21 +44,17 @@ class obj<T>{
 
         console.log(this.head);
 
-        for (var i = 0; i < this.val.length; ++i) {
-            console.log(this.val[i]);
-        }
+        [...this.val].forEach(v => {
+            console.log(v);
+        });
 
     }
 }
 
+
+
 function sortNumbers(a, b) {
-    if (a > b) {
-        return 1;
-    } else if (b > a) {
-        return -1;
-    } else {
-        return 0;
-    }
+    return a - b;
 }
 
 function sortCol(a: obj<number>, b: obj<number>) {
@@ -90,7 +96,7 @@ function Main(){
     }
 
     console.log(tobj[0].Get(0));
-   
+    console.log(obj.nb_obj);
 
 }
 
